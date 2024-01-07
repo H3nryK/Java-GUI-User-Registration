@@ -18,9 +18,9 @@ This Java application demonstrates a basic GUI with a user registration form. Th
 
 1. Clone repository
    ```bash
-   git clone https://github.com/H3nryK/javaguiregistration.git
+   git clone https://github.com/H3nryK/Java-GUI-User-Registration.git
 2. Open the project in your preferred Java IDE.
-3. Run the Main.java file to start the application.
+3. Run the .java file to start the application.
 
 ## Usage
 
