@@ -66,12 +66,17 @@ public class register extends JFrame {
         formPanel.add(addressField);
 
         JButton submitButton = new JButton("Submit");
+        submitButton.setIcon(new ImageIcon("submit_icon.png")); // Example: Add an icon to the submit button
+        submitButton.setBackground(Color.GREEN); // Example: Set background color
+        submitButton.setForeground(Color.BLACK); // Example: Set text color
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addUserToDatabase();
-                clearFields();
-                refreshTable();
+                if (validateFields()){
+                    addUserToDatabase();
+                    clearFields();
+                    refreshTable();
+                }
             }
         });
 
@@ -93,6 +98,48 @@ public class register extends JFrame {
         userList = new ArrayList<>();
     }
 
+    private boolean validateFields() {
+        String name = nameField.getText().trim();
+        String id = idField.getText().trim();
+        String mobile = mobileField.getText().trim();
+        String dob = dobField.getText().trim();
+        String address = addressField.getText().trim();
+
+        // Validate name
+        if (name.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a name.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        // Validate ID uniqueness
+        for (User user : userList) {
+            if (user.getId().equals(id)) {
+                JOptionPane.showMessageDialog(this, "ID already exists. Please enter a unique ID.", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+
+        // Validate mobile number format
+        if (!mobile.matches("\\d{10}")) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid 10-digit mobile number.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        // Validate date of birth format (assuming MM/DD/YYYY)
+        if (!dob.matches("\\d{2}/\\d{2}/\\d{4}")) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid date of birth (MM/DD/YYYY).", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        
+        // Validate address
+        if (address.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a address.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        return true;
+    }
+
     private void refreshTable() {
         //clear existing data
         tableModel.setRowCount(0);
@@ -104,6 +151,7 @@ public class register extends JFrame {
             user.getGender(), user.getDob(), user.getAddress()};
             tableModel.addRow(rowData);
         }
+    
     }
 
     private void addUserToDatabase() {
@@ -116,6 +164,9 @@ public class register extends JFrame {
 
         // Add user to the in-memory database
         userList.add(new User(name, id, mobile, gender, dob, address));
+
+        // Display success message
+        JOptionPane.showMessageDialog(this, "User added successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
 
         // Print the current users in the database (for demonstration purposes)
         System.out.println("Current Users in the Database:");
@@ -136,6 +187,13 @@ public class register extends JFrame {
     public static void main(String[] args) {
         // Run the GUI on the Event Dispatch Thread (EDT)
         SwingUtilities.invokeLater(() -> {
+            // Set the look and feel to Nimbus for better appearance (optional)
+            try {
+                UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             register userForm = new register();
             userForm.setVisible(true);
         });
