@@ -1,6 +1,6 @@
-# Java GUI User Registration
+# User Registration Application
 
-This Java application demonstrates a basic GUI with a user registration form. The entered user data is displayed in a data table. The application showcases the concept of a database by storing the set of data in an array.
+This Java Swing application allows users to register by filling out a form with their details. It includes validation for input fields, a table to display registered users, and basic user authentication. The login form provides a secure interface for users to access the registration functionality. The entered user data is displayed in a data table & it showcases the concept of a database by storing the set of data in an array.
 
 ## Features
 
